@@ -7,18 +7,18 @@
 
 body {
     background-color: #0b0e14;
-    color: #ffffff;
+    color: #e0e0e0;
     font-family: "Orbitron", "Segoe UI", sans-serif;
-    margin: 0;
-    overflow-x: hidden;
     min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
 }
 
 /* ---------- NAVBAR ---------- */
 nav {
     display: flex;
     justify-content: space-between;
-    padding: 20px 50px;
+    padding: 20px 40px;
     align-items: center;
     position: relative;
     z-index: 20;
@@ -28,7 +28,14 @@ nav {
     font-family: "Press Start 2P", monospace;
     font-size: 1.8rem;
     color: #00ff88;
-    text-shadow: 0 0 10px #00ff8844;
+    text-shadow: 0 0 15px #00ff8866;
+}
+
+.menu-toggle {
+    display: none;
+    font-size: 28px;
+    color: #00ff88;
+    cursor: pointer;
 }
 
 #nav-links {
@@ -40,7 +47,7 @@ nav {
 #nav-links a {
     color: #aab;
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     letter-spacing: 1px;
     transition: 0.3s;
     position: relative;
@@ -51,7 +58,7 @@ nav {
     position: absolute;
     left: 0;
     bottom: -4px;
-    width: 0%;
+    width: 0;
     height: 2px;
     background: #00ff88;
     transition: 0.3s;
@@ -60,25 +67,14 @@ nav {
 #nav-links a:hover {
     color: #00ff88;
 }
-
 #nav-links a:hover::after {
     width: 100%;
-}
-
-/* Mobil menü (hamburger) */
-.menu-toggle {
-    display: none;
-    cursor: pointer;
-    font-size: 28px;
-    color: #00ff88;
-    user-select: none;
 }
 
 @media (max-width: 768px) {
     .menu-toggle {
         display: block;
     }
-
     #nav-links {
         display: none;
         flex-direction: column;
@@ -88,21 +84,13 @@ nav {
         right: 20px;
         width: 200px;
         border-radius: 12px;
-        padding: 20px 0;
+        padding: 20px;
         gap: 15px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
         border: 1px solid #00ff8833;
     }
-
     #nav-links.active {
         display: flex;
     }
-
-    #nav-links a {
-        padding: 8px 20px;
-        display: block;
-    }
-
     #nav-links a::after {
         display: none;
     }
@@ -111,92 +99,114 @@ nav {
 /* ---------- ANA İÇERİK ---------- */
 main {
     text-align: center;
-    margin-top: 15vh;
-    z-index: 10;
+    padding: 20px 20px 60px;
     position: relative;
-    padding: 0 20px;
+    z-index: 10;
 }
 
 h1 {
     font-family: "Press Start 2P", monospace;
-    font-size: 4rem;
-    letter-spacing: 4px;
+    font-size: 3.5rem;
     color: #00ff88;
-    text-shadow: 0 0 20px #00ff8866, 0 0 60px #00ff8833;
-    margin-bottom: 20px;
-}
-
-main p {
-    font-size: 1.2rem;
-    color: #bbc;
-    letter-spacing: 1px;
-    margin-bottom: 40px;
-}
-
-/* ---------- BUTON (OYUN HAVASI) ---------- */
-.cta-button {
-    background: transparent;
-    border: 2px solid #00ff88;
-    color: #00ff88;
-    font-family: "Press Start 2P", monospace;
-    font-size: 1.2rem;
-    padding: 16px 48px;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: 0.3s ease;
-    text-transform: uppercase;
+    text-shadow: 0 0 30px #00ff8866, 0 0 60px #00ff8833;
+    margin-bottom: 10px;
     letter-spacing: 2px;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 0 15px #00ff8833;
 }
 
-.cta-button:hover {
-    background: #00ff88;
-    color: #0b0e14;
-    box-shadow: 0 0 40px #00ff88aa, 0 0 80px #00ff8844;
-    transform: scale(1.05);
+.subtitle {
+    font-size: 1.1rem;
+    color: #99aabb;
+    margin-bottom: 40px;
+    letter-spacing: 1px;
 }
 
-.cta-button:active {
-    transform: scale(0.96);
+/* ---------- SEVİYE GRİD ---------- */
+.level-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 25px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 10px;
 }
 
-/* ---------- ARKA PLAN OKLARI ---------- */
+.level-card {
+    background: rgba(22, 27, 34, 0.8);
+    border: 2px solid #2a3340;
+    border-radius: 16px;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    transition: 0.25s ease;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    cursor: default;
+}
+
+.level-card:hover {
+    transform: translateY(-5px);
+    border-color: #00ff8866;
+    box-shadow: 0 8px 25px #00ff8822;
+}
+
+.level-number {
+    font-family: "Press Start 2P", monospace;
+    font-size: 1.1rem;
+    color: #d0d8e0;
+    letter-spacing: 1px;
+}
+
+.level-status {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* Açık seviye */
+.level-card.open {
+    border-color: #00ff88;
+    background: rgba(0, 255, 136, 0.08);
+}
+.level-card.open .level-number {
+    color: #00ff88;
+}
+
+/* Kilitli seviye */
+.level-card.locked {
+    opacity: 0.6;
+}
+.level-card.locked .level-status {
+    color: #ff5566;
+}
+
+/* Yakında (coming soon) */
+.level-card.soon {
+    border-style: dashed;
+    border-color: #ffaa44;
+}
+.level-card.soon .level-status {
+    color: #ffaa44;
+}
+
+/* ---------- ARKA PLAN OKLARI (Labirent hareketi) ---------- */
 .maze-background {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+    position: fixed;
     top: 0;
     left: 0;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
-    overflow: hidden;
     z-index: 0;
+    overflow: hidden;
 }
 
 .arrow {
     position: absolute;
+    font-family: "Segoe UI", "Arial Unicode MS", sans-serif;
     color: #00ffcc;
-    font-family: "Segoe UI", sans-serif; /* oklar düzgün görünsün */
-    animation: floatArrow infinite alternate ease-in-out;
-    will-change: transform;
-    text-shadow: 0 0 10px currentColor;
-}
-
-@keyframes floatArrow {
-    0% {
-        transform: translate(0, 0) rotate(0deg);
-    }
-    25% {
-        transform: translate(40px, -25px) rotate(8deg);
-    }
-    50% {
-        transform: translate(-30px, 35px) rotate(-6deg);
-    }
-    75% {
-        transform: translate(20px, -40px) rotate(4deg);
-    }
-    100% {
-        transform: translate(-35px, 20px) rotate(-8deg);
-    }
+    text-shadow: 0 0 12px currentColor;
+    will-change: left, top;
+    /* Hareket JavaScript ile yapılacak, CSS animation yok */
+    user-select: none;
 }
