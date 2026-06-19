@@ -1,13 +1,19 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Arro Escape | Minimal Puzzle</title>
-    <link rel="stylesheet" href="style.css">
+
+    <!-- Google Fonts (Oyun Havası) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+    <!-- Arka plan okları buraya JavaScript ile doldurulacak -->
     <div class="maze-background"></div>
 
     <nav>
@@ -27,9 +33,45 @@
     </main>
 
     <script>
+        // Mobil menü toggle
         function toggleMenu() {
             document.getElementById("nav-links").classList.toggle("active");
         }
+
+        // Arka plana hareketli oklar ekle
+        (function createArrows() {
+            const container = document.querySelector(".maze-background");
+            if (!container) return;
+
+            const arrowSymbols = ["↑", "→", "↓", "←"];
+            const arrowCount = 30;
+
+            for (let i = 0; i < arrowCount; i++) {
+                const span = document.createElement("span");
+                span.className = "arrow";
+                span.textContent = arrowSymbols[Math.floor(Math.random() * arrowSymbols.length)];
+
+                // Rastgele boyut (20px – 60px)
+                const size = Math.random() * 40 + 20;
+                span.style.fontSize = size + "px";
+
+                // Rastgele konum (%)
+                span.style.left = Math.random() * 100 + "%";
+                span.style.top = Math.random() * 100 + "%";
+
+                // Rastgele dönüş açısı (0–360 derece)
+                span.style.transform = `rotate(${Math.random() * 360}deg)`;
+
+                // Rastgele animasyon süresi (6s – 18s) ve gecikme (0–10s)
+                span.style.animationDuration = Math.random() * 12 + 6 + "s";
+                span.style.animationDelay = Math.random() * 10 + "s";
+
+                // Rastgele opaklık (0.05 – 0.25) – çok silik olmasın
+                span.style.opacity = Math.random() * 0.2 + 0.08;
+
+                container.appendChild(span);
+            }
+        })();
     </script>
 </body>
 </html>
