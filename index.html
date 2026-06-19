@@ -3,74 +3,156 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Arro Escape | Minimal Puzzle</title>
-
-    <!-- Google Fonts (Oyun Havası) -->
+    <title>Arro Escape | Labirent</title>
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
-
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <!-- Arka plan okları buraya JavaScript ile doldurulacak -->
-    <div class="maze-background"></div>
+    <!-- Arka plan okları -->
+    <div class="maze-background" id="mazeBg"></div>
 
+    <!-- NAVBAR -->
     <nav>
         <div class="logo">ARRO</div>
         <div class="menu-toggle" onclick="toggleMenu()">☰</div>
         <ul id="nav-links">
-            <li><a href="index.html">Ana Sayfa</a></li>
-            <li><a href="privacy.html">Gizlilik Politikası</a></li>
-            <li><a href="terms.html">Kullanıcı Sözleşmesi</a></li>
+            <li><a href="#">Ana Sayfa</a></li>
+            <li><a href="#">Gizlilik</a></li>
+            <li><a href="#">Kullanıcı Sözleşmesi</a></li>
         </ul>
     </nav>
 
+    <!-- ANA İÇERİK: Seviye Haritası -->
     <main>
         <h1>Arro Escape</h1>
-        <p>Zihnini zorlayan minimalist labirent bulmacaları.</p>
-        <button class="cta-button">Hemen İndir</button>
+        <p class="subtitle">Labirentte kaybolmaya hazır mısın?</p>
+
+        <div class="level-grid">
+            <!-- Seviye kartları dinamik olarak oluşturulacak -->
+        </div>
     </main>
 
     <script>
-        // Mobil menü toggle
+        // ---------- MOBİL MENÜ ----------
         function toggleMenu() {
             document.getElementById("nav-links").classList.toggle("active");
         }
 
-        // Arka plana hareketli oklar ekle
-        (function createArrows() {
-            const container = document.querySelector(".maze-background");
-            if (!container) return;
-
+        // ---------- ARKA PLAN OKLARI (Labirent hareketi) ----------
+        (function createMazeArrows() {
+            const container = document.getElementById("mazeBg");
             const arrowSymbols = ["↑", "→", "↓", "←"];
-            const arrowCount = 30;
+            const count = 40; // Daha yoğun labirent hissi
 
-            for (let i = 0; i < arrowCount; i++) {
+            for (let i = 0; i < count; i++) {
                 const span = document.createElement("span");
                 span.className = "arrow";
-                span.textContent = arrowSymbols[Math.floor(Math.random() * arrowSymbols.length)];
+                const sym = arrowSymbols[Math.floor(Math.random() * arrowSymbols.length)];
+                span.textContent = sym;
 
-                // Rastgele boyut (20px – 60px)
-                const size = Math.random() * 40 + 20;
+                // Boyut (16px – 48px)
+                const size = Math.random() * 32 + 16;
                 span.style.fontSize = size + "px";
 
-                // Rastgele konum (%)
+                // Başlangıç konumu (ekranın her yerine dağılabilir)
                 span.style.left = Math.random() * 100 + "%";
                 span.style.top = Math.random() * 100 + "%";
 
-                // Rastgele dönüş açısı (0–360 derece)
-                span.style.transform = `rotate(${Math.random() * 360}deg)`;
+                // Yön: her ok sadece bir yönde hareket edecek (sabit yön)
+                // Bunu CSS değişkeni veya class ile yapabiliriz. Biz data attribute kullanalım.
+                const direction = sym; // ↑ → ↓ ←
+                span.dataset.dir = direction;
 
-                // Rastgele animasyon süresi (6s – 18s) ve gecikme (0–10s)
-                span.style.animationDuration = Math.random() * 12 + 6 + "s";
-                span.style.animationDelay = Math.random() * 10 + "s";
+                // Hareket hızı (px/s) farklı olsun
+                const speed = Math.random() * 60 + 30; // 30-90 px/s
+                span.dataset.speed = speed;
 
-                // Rastgele opaklık (0.05 – 0.25) – çok silik olmasın
+                // Rastgele opaklık (0.05 – 0.25)
                 span.style.opacity = Math.random() * 0.2 + 0.08;
 
                 container.appendChild(span);
             }
+
+            // Animasyon döngüsü: her ok kendi yönünde ilerlesin
+            function animateArrows() {
+                const arrows = document.querySelectorAll(".arrow");
+                arrows.forEach(arrow => {
+                    const dir = arrow.dataset.dir;
+                    const speed = parseFloat(arrow.dataset.speed);
+                    let left = parseFloat(arrow.style.left) || 0;
+                    let top = parseFloat(arrow.style.top) || 0;
+                    const step = speed / 60; // 60 FPS varsayımı
+
+                    // Yöne göre konum güncelleme
+                    if (dir === "→") {
+                        left += step / 100 * 100; // yüzdelik bazda
+                        if (left > 100) left = -5;
+                    } else if (dir === "←") {
+                        left -= step / 100 * 100;
+                        if (left < -5) left = 100;
+                    } else if (dir === "↓") {
+                        top += step / 100 * 100;
+                        if (top > 100) top = -5;
+                    } else if (dir === "↑") {
+                        top -= step / 100 * 100;
+                        if (top < -5) top = 100;
+                    }
+
+                    arrow.style.left = left + "%";
+                    arrow.style.top = top + "%";
+                });
+
+                requestAnimationFrame(animateArrows);
+            }
+
+            animateArrows();
+        })();
+
+        // ---------- SEVİYE KARTLARI OLUŞTUR ----------
+        (function createLevels() {
+            const grid = document.querySelector(".level-grid");
+            const totalLevels = 16;
+            // Örnek: level 1-15, 16. seviye açık, bazıları kilitli
+            // Görselde LEVEL 16, LEVEL 15 OPEN!, LEVEL 14, LEVEL 13 gibi
+            // Biz de benzer bir karışım yapalım.
+            const levels = [];
+            for (let i = 1; i <= totalLevels; i++) {
+                let status = "locked"; // varsayılan kilitli
+                if (i === 16 || i === 15 || i === 10 || i === 5) {
+                    status = "open";
+                }
+                // Bazılarını "coming soon" yapabiliriz
+                if (i === 12 || i === 8) status = "soon";
+                levels.push({ number: i, status });
+            }
+
+            // Tersten gösterelim (büyükten küçüğe) - görselde öyle
+            levels.reverse().forEach(level => {
+                const card = document.createElement("div");
+                card.className = `level-card ${level.status}`;
+
+                const numSpan = document.createElement("span");
+                numSpan.className = "level-number";
+                numSpan.textContent = `LEVEL ${level.number}`;
+
+                const statusSpan = document.createElement("span");
+                statusSpan.className = "level-status";
+                if (level.status === "open") {
+                    statusSpan.textContent = "OPEN!";
+                    statusSpan.style.color = "#00ff88";
+                } else if (level.status === "soon") {
+                    statusSpan.textContent = "🔜";
+                } else {
+                    statusSpan.textContent = "🔒";
+                }
+
+                card.appendChild(numSpan);
+                card.appendChild(statusSpan);
+                grid.appendChild(card);
+            });
         })();
     </script>
 </body>
