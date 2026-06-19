@@ -1,0 +1,27 @@
+body { 
+    background-color: #0b0e14; /* Senin oyunun arka plan tonu */
+    color: #ffffff; 
+    font-family: 'Segoe UI', sans-serif; 
+    margin: 0; 
+    overflow-x: hidden;
+}
+
+nav { display: flex; justify-content: space-between; padding: 20px 50px; align-items: center; }
+#nav-links { display: flex; list-style: none; gap: 20px; }
+#nav-links a { color: #888; text-decoration: none; transition: 0.3s; }
+#nav-links a:hover { color: #00ffcc; } /* Neon dokunuşu */
+
+main { text-align: center; margin-top: 15vh; z-index: 10; position: relative; }
+h1 { font-size: 3rem; letter-spacing: 2px; }
+
+/* Mobil Menü (Hamburger) */
+.menu-toggle { display: none; cursor: pointer; font-size: 24px; }
+@media (max-width: 768px) {
+    .menu-toggle { display: block; }
+    #nav-links { display: none; flex-direction: column; background: #161b22; position: absolute; top: 60px; right: 0; width: 100%; text-align: center; padding: 20px 0; }
+    #nav-links.active { display: flex; }
+}
+
+/* Arka plan ok animasyonu */
+.maze-background { position: absolute; width: 100%; height: 100%; top:0; left:0; pointer-events: none; opacity: 0.1; }
+/* Buraya oklarını bir ikon olarak ekleyip CSS ile @keyframes kullanarak yavaşça hareket ettirebilirsin */
