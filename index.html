@@ -4,9 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Arro Escape</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -24,62 +21,70 @@
         </ul>
     </nav>
 
-    <!-- ANA İÇERİK (sade) -->
+    <!-- ANA İÇERİK (Sadece başlık ve açıklama) -->
     <main>
         <h1>Arro Escape</h1>
         <p class="subtitle">Zihnini zorlayan minimalist labirent bulmacaları.</p>
-        <button class="cta-button">Hemen İndir</button>
+        <!-- Buton kaldırıldı -->
     </main>
 
     <script>
-        // Mobil menü
+        // ---------- MOBİL MENÜ ----------
         function toggleMenu() {
             document.getElementById("nav-links").classList.toggle("active");
         }
 
-        // Arka plan okları (az, yavaş, renkli)
+        // ---------- ARKA PLAN OKLARI (Yavaş, az, renkli) ----------
         (function createArrows() {
             const container = document.getElementById("mazeBg");
             const arrowSymbols = ["↑", "→", "↓", "←"];
-            const count = 10; // az sayıda
+            const count = 12; // Az sayıda ok
+
+            // Renk paleti (neon tonları)
             const colors = [
-                "#00ff88", "#00ccff", "#aa66ff", "#ff66aa", "#ffaa44",
-                "#ff4466", "#66ffcc", "#ff9966", "#aaff66", "#66aaff"
+                "#00ff88", // yeşil
+                "#ff6b6b", // kırmızı
+                "#ffd93d", // sarı
+                "#6bcbff", // mavi
+                "#b47aea", // mor
+                "#ff8a5c", // turuncu
+                "#00d2d3", // camgöbeği
+                "#f368e0", // pembe
             ];
 
             for (let i = 0; i < count; i++) {
                 const span = document.createElement("span");
                 span.className = "arrow";
-                const sym = arrowSymbols[Math.floor(Math.random() * arrowSymbols.length)];
-                span.textContent = sym;
+                span.textContent = arrowSymbols[Math.floor(Math.random() * arrowSymbols.length)];
 
                 // Boyut (20px – 50px)
                 const size = Math.random() * 30 + 20;
                 span.style.fontSize = size + "px";
 
-                // Rastgele renk
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                span.style.color = color;
-                span.style.textShadow = `0 0 15px ${color}66`;
-
-                // Başlangıç konumu
+                // Rastgele konum
                 span.style.left = Math.random() * 100 + "%";
                 span.style.top = Math.random() * 100 + "%";
 
-                // Yön
-                span.dataset.dir = sym;
+                // Rastgele renk
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                span.style.color = color;
+                span.style.textShadow = `0 0 15px ${color}66`; // hafif parlaklık
 
-                // Yavaş hız (10-30 px/s)
-                const speed = Math.random() * 20 + 10;
+                // Yön (data attribute)
+                const dir = span.textContent;
+                span.dataset.dir = dir;
+
+                // YAVAŞ hız (10-25 px/s) - çok yavaş
+                const speed = Math.random() * 15 + 8;
                 span.dataset.speed = speed;
 
-                // Opaklık (biraz daha belirgin olsun)
-                span.style.opacity = Math.random() * 0.3 + 0.15;
+                // Opaklık (0.15 – 0.35) - daha görünür
+                span.style.opacity = Math.random() * 0.2 + 0.15;
 
                 container.appendChild(span);
             }
 
-            // Animasyon döngüsü
+            // Animasyon döngüsü (yavaş)
             function animateArrows() {
                 const arrows = document.querySelectorAll(".arrow");
                 arrows.forEach(arrow => {
@@ -89,24 +94,28 @@
                     let top = parseFloat(arrow.style.top) || 0;
                     const step = speed / 60; // 60 FPS
 
+                    // Yöne göre hareket (yüzdelik)
                     if (dir === "→") {
                         left += step / 100 * 100;
-                        if (left > 100) left = -5;
+                        if (left > 105) left = -5;
                     } else if (dir === "←") {
                         left -= step / 100 * 100;
-                        if (left < -5) left = 100;
+                        if (left < -5) left = 105;
                     } else if (dir === "↓") {
                         top += step / 100 * 100;
-                        if (top > 100) top = -5;
+                        if (top > 105) top = -5;
                     } else if (dir === "↑") {
                         top -= step / 100 * 100;
-                        if (top < -5) top = 100;
+                        if (top < -5) top = 105;
                     }
+
                     arrow.style.left = left + "%";
                     arrow.style.top = top + "%";
                 });
+
                 requestAnimationFrame(animateArrows);
             }
+
             animateArrows();
         })();
     </script>
