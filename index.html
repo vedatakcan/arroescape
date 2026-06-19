@@ -1,1 +1,35 @@
 
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arro Escape | Minimal Puzzle</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="maze-background"></div>
+
+    <nav>
+        <div class="logo">ARRO</div>
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+        <ul id="nav-links">
+            <li><a href="index.html">Ana Sayfa</a></li>
+            <li><a href="privacy.html">Gizlilik Politikası</a></li>
+            <li><a href="terms.html">Kullanıcı Sözleşmesi</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h1>Arro Escape</h1>
+        <p>Zihnini zorlayan minimalist labirent bulmacaları.</p>
+        <button class="cta-button">Hemen İndir</button>
+    </main>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById("nav-links").classList.toggle("active");
+        }
+    </script>
+</body>
+</html>
