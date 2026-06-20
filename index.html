@@ -4,66 +4,101 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Arro Escape</title>
+    <meta name="description" content="Arro Escape is a minimalist maze puzzle game." />
+    <link rel="icon" href="arro.png" />
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
     <div class="maze-background" id="mazeBg"></div>
 
     <nav>
-        <div class="logo">ARRO</div>
+        <a href="index.html" class="logo">
+            <img src="arro.png" alt="Arro Logo" class="app-icon">
+            ARRO
+        </a>
         <div class="menu-toggle" onclick="toggleMenu()">☰</div>
         <ul id="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="privacy.html">Privacy</a></li>
-            <li><a href="terms.html">Terms</a></li>
+            <li><a href="index.html" class="active">HOME</a></li>
+            <li><a href="privacy.html">PRIVACY</a></li>
+            <li><a href="terms.html">TERMS</a></li>
         </ul>
     </nav>
 
     <main>
-        <h1>Arro Escape</h1>
-        <p class="subtitle">Minimalist maze puzzles that challenge your mind.</p>
+        <div class="hero-content">
+            <h1>Arro Escape</h1>
+            <p class="subtitle">Minimalist maze puzzles that challenge your mind.</p>
+            <a href="#download-section" class="btn-3d" id="playNowBtn">PLAY NOW</a>
+        </div>
     </main>
+
+    <div id="download-section" class="download-section">
+        <h2>Get Arro Escape</h2>
+        <a href="#" class="btn-3d">App Store Download</a>
+    </div>
+
+    <footer>
+        &copy; 2026 Vedat Akcan. All rights reserved.
+    </footer>
 
     <script>
         function toggleMenu() {
             document.getElementById("nav-links").classList.toggle("active");
         }
 
-        // Arka plan animasyonu aynı kalacak
+        // Oyun tarzı gövdeli/kuyruklu ok animasyonu
         (function createArrows() {
             const container = document.getElementById("mazeBg");
-            const arrowSymbols = ["↑", "→", "↓", "←"];
-            const count = 12;
-            const colors = ["#00ff88", "#ff6b6b", "#ffd93d", "#6bcbff", "#b47aea", "#ff8a5c", "#00d2d3", "#f368e0"];
+            const directions = [
+                { rot: 0, dir: 'up' }, 
+                { rot: 90, dir: 'right' }, 
+                { rot: 180, dir: 'down' }, 
+                { rot: 270, dir: 'left' }
+            ];
+            const count = 10; 
+            const colors = ["#ef4444", "#f59e0b", "#a855f7", "#4ade80", "#3b82f6"]; // Kırmızı, turuncu, mor, yeşil, mavi
 
             for (let i = 0; i < count; i++) {
-                const span = document.createElement("span");
-                span.className = "arrow";
-                span.textContent = arrowSymbols[Math.floor(Math.random() * arrowSymbols.length)];
-                span.style.fontSize = (Math.random() * 30 + 20) + "px";
-                span.style.left = Math.random() * 100 + "%";
-                span.style.top = Math.random() * 100 + "%";
+                const arrowConfig = directions[Math.floor(Math.random() * directions.length)];
                 const color = colors[Math.floor(Math.random() * colors.length)];
-                span.style.color = color;
-                span.style.textShadow = `0 0 15px ${color}66`;
-                span.dataset.dir = span.textContent;
-                span.dataset.speed = Math.random() * 15 + 8;
-                span.style.opacity = Math.random() * 0.2 + 0.15;
-                container.appendChild(span);
+                
+                const wrapper = document.createElement("div");
+                wrapper.className = "arrow-wrapper";
+                wrapper.dataset.dir = arrowConfig.dir;
+                wrapper.dataset.speed = Math.random() * 8 + 4; // Yavaş ve sabit akış
+                
+                wrapper.style.left = Math.random() * 100 + "%";
+                wrapper.style.top = Math.random() * 100 + "%";
+                wrapper.style.transform = `rotate(${arrowConfig.rot}deg)`;
+                wrapper.style.opacity = Math.random() * 0.4 + 0.1;
+                
+                const head = document.createElement("div");
+                head.className = "arrow-head";
+                head.style.borderBottomColor = color;
+                
+                const body = document.createElement("div");
+                body.className = "arrow-body";
+                body.style.backgroundColor = color;
+                
+                wrapper.appendChild(head);
+                wrapper.appendChild(body);
+                container.appendChild(wrapper);
             }
 
             function animateArrows() {
-                const arrows = document.querySelectorAll(".arrow");
+                const arrows = document.querySelectorAll(".arrow-wrapper");
                 arrows.forEach(arrow => {
                     const dir = arrow.dataset.dir;
                     const speed = parseFloat(arrow.dataset.speed);
                     let left = parseFloat(arrow.style.left) || 0;
                     let top = parseFloat(arrow.style.top) || 0;
                     const step = speed / 60;
-                    if (dir === "→") { left += step; if (left > 105) left = -5; }
-                    else if (dir === "←") { left -= step; if (left < -5) left = 105; }
-                    else if (dir === "↓") { top += step; if (top > 105) top = -5; }
-                    else if (dir === "↑") { top -= step; if (top < -5) top = 105; }
+                    
+                    if (dir === "right") { left += step; if (left > 105) left = -10; }
+                    else if (dir === "left") { left -= step; if (left < -10) left = 105; }
+                    else if (dir === "down") { top += step; if (top > 105) top = -10; }
+                    else if (dir === "up") { top -= step; if (top < -10) top = 105; }
+                    
                     arrow.style.left = left + "%";
                     arrow.style.top = top + "%";
                 });
