@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Arrow Escape</title>
 
-  <!-- Global Social Preview -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Arrow Escape" />
-  <meta property="og:url" content="https://vedatakcan.github.io/arrow-escape-web/invite/" />
+  <meta property="og:description" content="Arrow Escape oyununa katıl ve hemen oynamaya başla!" />
+  <meta property="og:url" content="https://vedatakcan.github.io/arroescape/" />
 
-  <meta property="og:image" content="https://vedatakcan.github.io/arrow-escape-web/arro.png" />
+  <meta property="og:image" content="https://vedatakcan.github.io/arroescape/arro.png" />
   <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="300" />
   <meta property="og:image:height" content="300" />
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Arrow Escape">
-  <meta name="twitter:image" content="https://vedatakcan.github.io/arrow-escape-web/arro.png">
+  <meta name="twitter:image" content="https://vedatakcan.github.io/arroescape/arro.png">
 
   <style>
     body {
@@ -66,11 +66,8 @@
   const isIOS = /iPhone|iPad|iPod/i.test(ua);
 
   const iosStore = "https://apps.apple.com/tr/app/arro-arrow-escape-puzzle/id6782473364";
-
-  // Android yayınlanınca bunu Play Store linkinle değiştir.
-  const androidStore = "https://vedatakcan.github.io/arrow-escape-web/";
-
-  const fallbackUrl = "https://vedatakcan.github.io/arrow-escape-web/";
+  const androidStore = "https://play.google.com/store/apps/..."; // Burayı kendi Play Store linkinle değiştir
+  const fallbackUrl = "https://apps.apple.com/tr/app/arro-arrow-escape-puzzle/id6782473364";
 
   let targetUrl = fallbackUrl;
 
@@ -80,9 +77,10 @@
     targetUrl = androidStore;
   }
 
+  // Yönlendirme süresini biraz artırdım ki görsel önizleme botları sayfayı daha rahat okuyabilsin
   setTimeout(() => {
     window.location.replace(targetUrl);
-  }, 100);
+  }, 1000);
 </script>
 
 </body>
