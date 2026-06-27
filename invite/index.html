@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arrow Escape</title>
+
+  <!-- Global Social Preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Arrow Escape" />
+  <meta property="og:url" content="https://vedatakcan.github.io/arrow-escape-web/invite/" />
+
+  <meta property="og:image" content="https://vedatakcan.github.io/arrow-escape-web/arro.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="300" />
+  <meta property="og:image:height" content="300" />
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Arrow Escape">
+  <meta name="twitter:image" content="https://vedatakcan.github.io/arrow-escape-web/arro.png">
+
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #08131F;
+      overflow: hidden;
+    }
+
+    .progress-container {
+      width: 200px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 3px;
+      box-shadow: 0 4px 12px rgba(0,0,0,.35);
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 6px;
+      border-radius: 10px;
+      background: linear-gradient(90deg,#35D0FF,#2A7BFF);
+      animation: loadBar 1.2s cubic-bezier(.4,0,.2,1) forwards;
+    }
+
+    @keyframes loadBar {
+      0% { width: 0%; }
+      50% { width: 70%; }
+      100% { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="progress-container">
+  <div class="progress-bar"></div>
+</div>
+
+<script>
+  const ua = navigator.userAgent || navigator.vendor || window.opera;
+  const isAndroid = /Android/i.test(ua);
+  const isIOS = /iPhone|iPad|iPod/i.test(ua);
+
+  const iosStore = "https://apps.apple.com/tr/app/arro-arrow-escape-puzzle/id6782473364";
+
+  // Android yayınlanınca bunu Play Store linkinle değiştir.
+  const androidStore = "https://vedatakcan.github.io/arrow-escape-web/";
+
+  const fallbackUrl = "https://vedatakcan.github.io/arrow-escape-web/";
+
+  let targetUrl = fallbackUrl;
+
+  if (isIOS) {
+    targetUrl = iosStore;
+  } else if (isAndroid) {
+    targetUrl = androidStore;
+  }
+
+  setTimeout(() => {
+    window.location.replace(targetUrl);
+  }, 100);
+</script>
+
+</body>
+</html>
