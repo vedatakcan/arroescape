@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Arrow Escape</title>
 
+  <!-- Sosyal Medya Önizlemesi (Metinsiz) -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Arrow Escape" />
-  <meta property="og:description" content="Arrow Escape oyununa katıl ve hemen oynamaya başla!" />
   <meta property="og:url" content="https://vedatakcan.github.io/arroescape/" />
 
+  <!-- Görsel -->
   <meta property="og:image" content="https://vedatakcan.github.io/arroescape/arro.png" />
   <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="300" />
@@ -21,14 +22,12 @@
 
   <style>
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       display: flex;
       align-items: center;
       justify-content: center;
       height: 100vh;
       margin: 0;
       background-color: #08131F;
-      overflow: hidden;
     }
 
     .progress-container {
@@ -36,7 +35,6 @@
       background: rgba(255,255,255,0.08);
       border-radius: 10px;
       padding: 3px;
-      box-shadow: 0 4px 12px rgba(0,0,0,.35);
     }
 
     .progress-bar {
@@ -49,7 +47,6 @@
 
     @keyframes loadBar {
       0% { width: 0%; }
-      50% { width: 70%; }
       100% { width: 100%; }
     }
   </style>
@@ -65,11 +62,11 @@
   const isAndroid = /Android/i.test(ua);
   const isIOS = /iPhone|iPad|iPod/i.test(ua);
 
-  const iosStore = "https://apps.apple.com/tr/app/arro-arrow-escape-puzzle/id6782473364";
-  const androidStore = "https://play.google.com/store/apps/..."; // Burayı kendi Play Store linkinle değiştir
-  const fallbackUrl = "https://apps.apple.com/tr/app/arro-arrow-escape-puzzle/id6782473364";
+  // Linkler
+  const iosStore = "https://apps.apple.com/app/arro-arrow-escape-puzzle/id6782473364";
+  const androidStore = "https://play.google.com/store/apps/details?id=com.vedatakcan.arroescape"; // Paket adını düzelt
 
-  let targetUrl = fallbackUrl;
+  let targetUrl = iosStore; 
 
   if (isIOS) {
     targetUrl = iosStore;
@@ -77,10 +74,10 @@
     targetUrl = androidStore;
   }
 
-  // Yönlendirme süresini biraz artırdım ki görsel önizleme botları sayfayı daha rahat okuyabilsin
+  // Hemen yönlendir
   setTimeout(() => {
     window.location.replace(targetUrl);
-  }, 1000);
+  }, 500);
 </script>
 
 </body>
